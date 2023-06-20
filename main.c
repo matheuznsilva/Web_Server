@@ -10,7 +10,7 @@
 
 #define MAX_REQUEST_SIZE 1024
 #define RESPONSE_BUFFER_SIZE 4096
-#define DOCUMENT_ROOT "/home/"
+#define DOCUMENT_ROOT "/home/matheuznsilva/GitHub/REDES"
 
 void request(int client_socket) {
     char request[MAX_REQUEST_SIZE];
