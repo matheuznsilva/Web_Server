@@ -10,7 +10,7 @@
 
 #define MAX_REQUEST_SIZE 1024
 #define RESPONSE_BUFFER_SIZE 4096
-#define DEFAULT_PORT 8080
+//#define DEFAULT_PORT 8080
 #define DOCUMENT_ROOT "/home/"
 
 void handle_request(int client_socket) {
@@ -134,7 +134,14 @@ void handle_request(int client_socket) {
     close(client_socket);
 }
 
-int main() {
+int main(int argc, char *argv[]){
+    
+    if(argc < 2){
+        fprintf(stderr,"ERROR, no port provided\n");
+        exit(1);
+    }
+    
+    int port = atoi(argv[1]);
     int server_socket;
     struct sockaddr_in server_addr;
 
@@ -148,7 +155,7 @@ int main() {
     // Prepare the server address structure
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = htons(DEFAULT_PORT);
+    server_addr.sin_port = htons(port);
 
     // Bind the socket to the specified address and port
     if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
@@ -162,7 +169,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    printf("Server started. Listening on port %d...\n", DEFAULT_PORT);
+    printf("Server started. Listening on port %d...\n", port);
 
     while (1) {
         struct sockaddr_in client_addr;
