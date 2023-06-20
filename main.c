@@ -10,7 +10,6 @@
 
 #define MAX_REQUEST_SIZE 1024
 #define RESPONSE_BUFFER_SIZE 4096
-//#define DEFAULT_PORT 8080
 #define DOCUMENT_ROOT "/home/"
 
 void handle_request(int client_socket) {

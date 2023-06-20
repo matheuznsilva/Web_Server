@@ -20,8 +20,8 @@
 |                                               |
 | Na pasta raiz da aplicação executar os        |
 | seguintes comandos:                           |
-| $ make                                        |
-| $ ./server N_Porta_conexão e tamanho_buffer   |  
+| $ gcc main.c -o server                        |
+| $ ./server N_Porta_conexão                    |  
 |                                               |
 | ---------- Para rodar cada cliente ---------- |
 |                                               |
