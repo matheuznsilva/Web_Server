@@ -12,7 +12,7 @@
 #define RESPONSE_BUFFER_SIZE 4096
 #define DOCUMENT_ROOT "/home/"
 
-void handle_request(int client_socket) {
+void request(int client_socket) {
     char request[MAX_REQUEST_SIZE];
     ssize_t bytes_received = recv(client_socket, request, sizeof(request) - 1, 0);
     if (bytes_received <= 0) {
@@ -182,7 +182,7 @@ int main(int argc, char *argv[]){
         }
 
         // Handle the client request
-        handle_request(client_socket);
+        request(client_socket);
     }
 
     // Close the server socket
