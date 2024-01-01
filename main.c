@@ -7,25 +7,25 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #define MAX_REQUEST_SIZE 1024
 #define RESPONSE_BUFFER_SIZE 4096
 #define DOCUMENT_ROOT "/home/matheuznsilva/GitHub/REDES"
 
-void request(int client_socket) {
+void handle_request(int client_socket) {
     char request[MAX_REQUEST_SIZE];
     ssize_t bytes_received = recv(client_socket, request, sizeof(request) - 1, 0);
     if (bytes_received <= 0) {
         perror("Failed to read request");
+        close(client_socket);
         return;
     }
 
-    // Add null terminator to the received data
     request[bytes_received] = '\0';
-    printf("\n %s \n", request);
-    // Check if the requested path is the special path "/HEADER"
-    if (strcmp(request, "GET /HEADER") == 0) {
-        // Return the HTTP request header as HTML
+    printf("\n%s\n", request);
+    if (strncmp(request, "GET /HEADER", 11) == 0) {
+        // heandle request for header
         const char *header_response = "HTTP/1.1 200 OK\r\n"
                                       "Content-Type: text/html; charset=UTF-8\r\n\r\n"
                                       "<html><body><h1>HTTP Request Header</h1>"
@@ -137,7 +137,7 @@ int main(int argc, char *argv[]){
     
     if(argc < 2){
         fprintf(stderr,"ERROR, no port provided\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     
     int port = atoi(argv[1]);
@@ -182,11 +182,10 @@ int main(int argc, char *argv[]){
         }
 
         // Handle the client request
-        request(client_socket);
+        handle_request(client_socket);
     }
 
     // Close the server socket
     close(server_socket);
-
     return 0;
 }
